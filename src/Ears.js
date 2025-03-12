@@ -24,26 +24,18 @@ class Ears{
         if(this.recognition===null){
             this.recognition = new SpeechRecognition();
         }
-        this.recognition.continuous = false;
+        this.recognition.continuous = true;
         this.recognition.lang = this.lang;
         this.recognition.interimResults = false;
         this.recognition.maxAlternatives = 1;
 
-        this.recognition.onspeechstart = () => {
-            this.handleSpeechStartCallbacks();
-        }
-
-        this.recognition.onspeechend = () => {
-            this.handleSpeechStopCallbacks();
-        };
-
         this.recognition.onresult = (event)=>{
-            this.handleRecognitionResultCallbacks(event.results[0][0].transcript);
+            this.handleRecognitionResultCallbacks(event.results[event.results.length-1][0].transcript);
         };
 
         this.recognition.start();
 
-        /*this.vad = await vad.MicVAD.new({
+        this.vad = await vad.MicVAD.new({
             onSpeechStart: () => {
                 this.handleSpeechStartCallbacks();
             },
@@ -51,7 +43,7 @@ class Ears{
                 this.handleSpeechStopCallbacks();
             }
         });
-        this.vad.start();*/
+        this.vad.start();
     }
 
     stopListening(){

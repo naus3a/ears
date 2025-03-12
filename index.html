@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <title>Ears example</title>
-        <!--<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>-->
+        <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
         <script src="src/Ears.js"></script>
         <script>
         
@@ -12,6 +12,7 @@
         ears.addSpeechStartListener(()=>{console.log("START")});
         ears.addSpeechStopListener(()=>{console.log("STOP");});
         ears.addRecognitionResultListener((res)=>{console.log(res)});
+        ears.lang = "it";
         ears.startListening();
         </script>
     </head>
