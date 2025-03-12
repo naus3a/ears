@@ -30,25 +30,33 @@ class Ears{
         this.recognition.maxAlternatives = 1;
 
         this.recognition.onresult = (event)=>{
+            //TODO: figure out a way to avoid the result array to become huge
             this.handleRecognitionResultCallbacks(event.results[event.results.length-1][0].transcript);
         };
 
         this.recognition.start();
 
-        this.vad = await vad.MicVAD.new({
-            onSpeechStart: () => {
-                this.handleSpeechStartCallbacks();
-            },
-            onSpeechEnd: (audio) => {
-                this.handleSpeechStopCallbacks();
-            }
-        });
+        if(this.vad===null){
+            this.vad = await vad.MicVAD.new({
+                onSpeechStart: () => {
+                    this.handleSpeechStartCallbacks();
+                },
+                onSpeechEnd: (audio) => {
+                    this.handleSpeechStopCallbacks();
+                }
+            });
+        }
         this.vad.start();
+        this.#isListening = true;
+        console.log("Ears started listening");
     }
 
     stopListening(){
         if(!this.isListening())return;
         this.recognition.stop();
+        this.vad.pause();
+        this.#isListening = false;
+        console.log("Ears stopped listenging");
     }
 
     isListening(){
