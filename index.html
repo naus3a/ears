@@ -7,19 +7,10 @@
         <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
         <script src="src/Ears.js"></script>
         <script>
-        /*async function main() {
-            const myvad = await vad.MicVAD.new({
-            onSpeechStart: () => {
-                console.log("Speech start detected")
-            },
-            onSpeechEnd: (audio) => {
-                console.log("speech stopped");
-            }
-            })
-            myvad.start()
-        }
-        main()*/
+        
         const ears = new Ears();
+        ears.addSpeechStartListener(()=>{console.log("START")});
+        ears.addSpeechStopListener(()=>{console.log("STOP");});
         ears.startListening();
         </script>
     </head>
