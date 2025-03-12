@@ -6,9 +6,13 @@ const SpeechRecognitionEvent =
   window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent;
 
 class Ears{
+    #isListening = false;
+
     constructor(){
         this.vad = null;
         this.recognition = null;
+
+        this.lang = "en-US";
 
         this.speechStartListeners = [];
         this.speechStopListeners = [];
@@ -16,9 +20,12 @@ class Ears{
     }
 
     async startListening(){
-        this.recognition = new SpeechRecognition();
+        if(this.isListening())return;
+        if(this.recognition===null){
+            this.recognition = new SpeechRecognition();
+        }
         this.recognition.continuous = false;
-        this.recognition.lang = "en-US";
+        this.recognition.lang = this.lang;
         this.recognition.interimResults = false;
         this.recognition.maxAlternatives = 1;
 
@@ -32,7 +39,6 @@ class Ears{
 
         this.recognition.onresult = (event)=>{
             this.handleRecognitionResultCallbacks(event.results[0][0].transcript);
-            //console.log(event.results[0][0].transcript);
         };
 
         this.recognition.start();
@@ -49,9 +55,12 @@ class Ears{
     }
 
     stopListening(){
-        if(this.recognition!==null){
-            this.recognition.stop();
-        }
+        if(!this.isListening())return;
+        this.recognition.stop();
+    }
+
+    isListening(){
+        return this.#isListening;
     }
 
     ///
