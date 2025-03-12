@@ -11,6 +11,7 @@
         const ears = new Ears();
         ears.addSpeechStartListener(()=>{console.log("START")});
         ears.addSpeechStopListener(()=>{console.log("STOP");});
+        ears.addRecognitionResultListener((res)=>{console.log(res)});
         ears.startListening();
         </script>
     </head>
